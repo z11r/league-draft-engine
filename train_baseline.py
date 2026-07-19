@@ -3,6 +3,7 @@ import numpy as np
 from scipy.sparse import csr_matrix
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, log_loss
+import joblib
 
 conn = connect()
 rows = conn.execute("""
@@ -48,3 +49,6 @@ majority = max(y_test.mean(), 1 - y_test.mean())
 print(f"always-red baseline: {majority:.4f}")
 print(f"model accuracy:      {acc:.4f}")
 print(f"model log loss:      {ll:.4f}")
+
+joblib.dump({"model": model, "feature_index": feature_index}, "baseline.joblib")
+print("saved baseline.joblib")
