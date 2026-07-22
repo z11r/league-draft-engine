@@ -2,9 +2,13 @@ import joblib
 import numpy as np
 from scipy.sparse import csr_matrix
 
+MIN_GAMES = 100
+TOP = 10
+
 artifact = joblib.load("baseline.joblib")
 model = artifact["model"]
 feature_index = artifact["feature_index"]
+feature_counts = artifact["feature_counts"]
 
 ROLES = ["top", "jungle", "mid", "bot", "support"]
 
@@ -31,7 +35,7 @@ def recommend(blue_comp, red_comp, slot):
     original = comp[role]
     scores = []
     for key_slot, champ in feature_index:
-        if key_slot != slot or champ in taken:
+        if key_slot != slot or champ in taken or feature_counts[(key_slot, champ)] < MIN_GAMES:
             continue
         comp[role] = champ
         win = predict_win(blue_comp, red_comp)
@@ -41,6 +45,5 @@ def recommend(blue_comp, red_comp, slot):
     comp[role] = original
 
     scores.sort(key=lambda pair: pair[1], reverse=True)
-    # top 10 scores
-    return scores[:10]
+    return scores[:TOP]
 
