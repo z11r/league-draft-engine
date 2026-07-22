@@ -18,3 +18,29 @@ def predict_win(blue_comp, red_comp):
                 cols.append(feature_index[key])
     x = csr_matrix((np.ones(len(cols)), ([0] * len(cols), cols)), shape=(1, len(feature_index)))
     return float(model.predict_proba(x)[0, 1])
+
+
+def recommend(blue_comp, red_comp, slot):
+    side, role = slot.split("_")
+    if side == "blue":
+        comp = blue_comp
+    else:
+        comp = red_comp
+
+    taken = set(blue_comp.values()) | set(red_comp.values())
+    original = comp[role]
+    scores = []
+    for key_slot, champ in feature_index:
+        if key_slot != slot or champ in taken:
+            continue
+        comp[role] = champ
+        win = predict_win(blue_comp, red_comp)
+        if side == "red":
+            win = 1 - win
+        scores.append((champ, win))
+    comp[role] = original
+
+    scores.sort(key=lambda pair: pair[1], reverse=True)
+    # top 10 scores
+    return scores[:10]
+
