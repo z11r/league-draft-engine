@@ -13,6 +13,10 @@ feature_counts = artifact["feature_counts"]
 ROLES = ["top", "jungle", "mid", "bot", "support"]
 
 
+def list_champions():
+    return sorted({champ for _, champ in feature_index})
+
+
 def predict_win(blue_comp, red_comp):
     cols = []
     for side, comp in [("blue", blue_comp), ("red", red_comp)]:
