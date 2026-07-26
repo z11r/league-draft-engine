@@ -63,11 +63,11 @@ body {
 
 .predict {
   display: flex;
-  predict[hidden] { display: none; }
   align-items: center;
   gap: 18px;
   min-height: 44px;
 }
+.predict[hidden] { display: none; }
 .predict--waiting, .predict--error {
   font-size: 12px;
   letter-spacing: 0.08em;

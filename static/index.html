@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Draft Engine</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◆</span>
+      <h1>Draft&nbsp;Engine</h1>
+      <span class="mock-tag" id="backend-tag">mock backend</span>
+    </div>
+
+    <!-- Prediction readout: hidden until all ten slots are filled -->
+    <div class="predict" id="predict" hidden>
+      <div class="predict-figure">
+        <span class="predict-value" id="predict-value">—</span>
+        <span class="predict-caption">blue win probability</span>
+      </div>
+      <div class="predict-bar" aria-hidden="true">
+        <div class="predict-bar-blue" id="predict-bar-blue"></div>
+        <div class="predict-bar-red" id="predict-bar-red"></div>
+      </div>
+    </div>
+    <div class="predict predict--waiting" id="predict-waiting">
+      Fill all ten slots to see the win prediction.
+    </div>
+    <div class="predict predict--error" id="predict-error" hidden>
+      Prediction request failed.
+    </div>
+  </header>
+
+  <main class="board">
+    <section class="team team--blue" id="team-blue" aria-label="Blue team">
+      <h2 class="team-title">Blue</h2>
+      <div class="slots" id="slots-blue"></div>
+    </section>
+
+    <section class="panel" aria-label="Suggestions">
+      <div class="panel-head">
+        <h2 class="panel-title">Suggestions</h2>
+        <button class="suggest-btn" id="suggest-btn" disabled>Suggest</button>
+      </div>
+      <p class="panel-hint" id="panel-hint">Select an empty slot, then Suggest.</p>
+      <ol class="recs" id="recs"></ol>
+    </section>
+
+    <section class="team team--red" id="team-red" aria-label="Red team">
+      <h2 class="team-title">Red</h2>
+      <div class="slots" id="slots-red"></div>
+    </section>
+  </main>
+
+  <!-- Shared champion pool for every slot's type-ahead -->
+  <datalist id="champ-list"></datalist>
+
+  <script src="app.js"></script>
+</body>
+</html>
